@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
+# In[19]:
 
 
 #test data 
@@ -15,16 +15,17 @@ import networkx as nx
 import pandas as pd
 from collections import Counter
 import matplotlib.pyplot as plt
-from wordcloud import WordCloud, STOPWORDS, ImageColorGenerator
+#from wordcloud import WordCloud, STOPWORDS, ImageColorGenerator
 import collections
-from spotlight import annotate
+#import spotlight
+#from spotlight import annotate
 from functools import partial
 from itertools import islice
 from sklearn.metrics.pairwise import cosine_similarity
 
 F= nx.Graph()
 fork_headers = ['user_id','projectid']
-forks = pd.read_csv('/home/nkorojoseph/Documents/trialdata/fork.csv',header=None,skiprows=1, names=fork_headers)
+forks = pd.read_csv(r'C:\Users\Reli_New_PC_18\Documents\Trust Aware Recommender System for Social Coding Platforms\Dataset\fork.csv',header=None,skiprows=1, names=fork_headers)
 fusers = forks.user_id.tolist()
 fproj = forks.projectid.tolist()
 #print(fusers)
@@ -34,7 +35,7 @@ F.add_edges_from(forks.values)
 
 W= nx.Graph()
 watch_headers = ['user_id','projectid']
-watchers = pd.read_csv('/home/nkorojoseph/Documents/trialdata/watchers.csv',header=None,skiprows=1, names=watch_headers)
+watchers = pd.read_csv(r'C:\Users\Reli_New_PC_18\Documents\Trust Aware Recommender System for Social Coding Platforms\Dataset\watchers.csv',header=None,skiprows=1, names=watch_headers)
 wusers = watchers.user_id.tolist()
 wproj = watchers.projectid.tolist()
 #print(wusers)
@@ -44,7 +45,7 @@ W.add_edges_from(watchers.values)
 
 P= nx.Graph()
 pullrequest_headers = ['user_id','projectid']
-pullrequest = pd.read_csv('/home/nkorojoseph/Documents/trialdata/pullrequest.csv',header=None,skiprows=1, names=pullrequest_headers)
+pullrequest = pd.read_csv(r'C:\Users\Reli_New_PC_18\Documents\Trust Aware Recommender System for Social Coding Platforms\Dataset\pullrequest.csv',header=None,skiprows=1, names=pullrequest_headers)
 pusers = pullrequest.user_id.tolist()
 pproj = pullrequest.projectid.tolist()
 #print(fusers)
@@ -53,19 +54,19 @@ P.add_edges_from(pullrequest.values)
 
 C= nx.Graph()
 commit_headers = ['user_id','projectid']
-commits = pd.read_csv('/home/nkorojoseph/Documents/trialdata/commits.csv',header=None,skiprows=1, names=commit_headers)
+commits = pd.read_csv(r'C:\Users\Reli_New_PC_18\Documents\Trust Aware Recommender System for Social Coding Platforms\Dataset\commits.csv',header=None,skiprows=1, names=commit_headers)
 cusers = commits.user_id.tolist()
 cproj = commits.projectid.tolist()
 C.add_edges_from(commits.values)
 
 PM= nx.Graph()
 pm_headers = ['user_id','projectid']
-pm = pd.read_csv('/home/nkorojoseph/Documents/trialdata/projectmembers.csv',header=None,skiprows=1, names=commit_headers)
+pm = pd.read_csv(r'C:\Users\Reli_New_PC_18\Documents\Trust Aware Recommender System for Social Coding Platforms\Dataset\projectmembers.csv',header=None,skiprows=1, names=commit_headers)
 pmusers = pm.user_id.tolist()
 pmproj = pm.projectid.tolist()
 PM.add_edges_from(pm.values)
 print(PM.edges())
-targetp = ntpath.basename('/home/nkorojoseph/Desktop/githubreadmefiles/p4')
+targetp = ntpath.basename(r'C:\Users\Reli_New_PC_18\Documents\Trust Aware Recommender System for Social Coding Platforms\Dataset\githubreadmefiles\p4')
 totalusers = set(fusers + wusers + cusers + pusers+pmusers)
 
 G = nx.DiGraph()
@@ -80,10 +81,12 @@ occur_projects = [u[1] for u in G.edges()]
 testfile = targetp
 testusers = occur_users
 
+print(testfile)
+
 print(occur_users)
 
 
-# In[ ]:
+# In[30]:
 
 
 import nltk, string
@@ -96,13 +99,13 @@ import networkx as nx
 import pandas as pd
 from collections import Counter
 import matplotlib.pyplot as plt
-from wordcloud import WordCloud, STOPWORDS, ImageColorGenerator
 import collections
-from spotlight import annotate
-from functools import partial
-from itertools import islice
 from sklearn.metrics.pairwise import cosine_similarity
 import numpy
+from wordcloud import WordCloud, STOPWORDS
+import spotlight
+from functools import partial
+from itertools import islice
 
 #A function for Slicing a dictionary
 '''n is the slice rate 
@@ -136,11 +139,11 @@ def cosine_sim(text1, text2):
     return ((tfidf * tfidf.T).A)[0,1]
 
 
-path = "/home/nkorojoseph/Desktop/githubreadmefiles/*"
+path = 'C:\\Users\Reli_New_PC_18\\Documents\\Trust Aware Recommender System for Social Coding Platforms\\Dataset\\githubreadmefiles\\*'
 
 oldProjectReadme = []
 newProjectReadme = []
-with open(r"/home/nkorojoseph/Desktop/githubtestreadme/"+testfile,'r') as newPorject:
+with open('C:\\Users\Reli_New_PC_18\\Documents\\Trust Aware Recommender System for Social Coding Platforms\\Dataset\\githubtestreadme\\'+testfile, 'r' , encoding="utf8") as newPorject:
     dataNew = newPorject.read()
     newProjectReadme.append(dataNew.replace("\n",""))
 
@@ -148,7 +151,7 @@ with open(r"/home/nkorojoseph/Desktop/githubtestreadme/"+testfile,'r') as newPor
 '''for both the new and old readme files, append the name of the files to a list containing the readme texts for each document'''
 readmewithname = []
 for fname in glob.glob(path):
-    with open(fname, 'r') as infile:
+    with open(fname, 'r', encoding="utf8") as infile:
         data = infile.read()
         oldProjectReadme.append(data.replace("\n",""))
         readmewithname.append((fname,data.replace("\n","")))
@@ -175,7 +178,7 @@ targetp = ntpath.basename(first_elts[maxIndex])
 
 F= nx.Graph()
 fork_headers = ['user_id','projectid']
-forks = pd.read_csv('/home/nkorojoseph/Documents/trialdata/fork.csv',header=None,skiprows=1, names=fork_headers)
+forks = pd.read_csv(r"C:\Users\Reli_New_PC_18\Documents\Trust Aware Recommender System for Social Coding Platforms\Dataset\fork.csv",header=None,skiprows=1, names=fork_headers)
 fusers = forks.user_id.tolist()
 fproj = forks.projectid.tolist()
 #print(fusers)
@@ -185,7 +188,7 @@ F.add_edges_from(forks.values)
 
 W= nx.Graph()
 watch_headers = ['user_id','projectid']
-watchers = pd.read_csv('/home/nkorojoseph/Documents/trialdata/watchers.csv',header=None,skiprows=1, names=watch_headers)
+watchers = pd.read_csv(r"C:\Users\Reli_New_PC_18\Documents\Trust Aware Recommender System for Social Coding Platforms\Dataset\watchers.csv",header=None,skiprows=1, names=watch_headers)
 wusers = watchers.user_id.tolist()
 wproj = watchers.projectid.tolist()
 #print(wusers)
@@ -195,7 +198,7 @@ W.add_edges_from(watchers.values)
 
 P= nx.Graph()
 pullrequest_headers = ['user_id','projectid']
-pullrequest = pd.read_csv('/home/nkorojoseph/Documents/trialdata/pullrequest.csv',header=None,skiprows=1, names=pullrequest_headers)
+pullrequest = pd.read_csv(r"C:\Users\Reli_New_PC_18\Documents\Trust Aware Recommender System for Social Coding Platforms\Dataset\pullrequest.csv",header=None,skiprows=1, names=pullrequest_headers)
 pusers = pullrequest.user_id.tolist()
 pproj = pullrequest.projectid.tolist()
 #print(fusers)
@@ -204,7 +207,7 @@ P.add_edges_from(pullrequest.values)
 
 C= nx.Graph()
 commit_headers = ['user_id','projectid']
-commits = pd.read_csv('/home/nkorojoseph/Documents/trialdata/commits.csv',header=None,skiprows=1, names=commit_headers)
+commits = pd.read_csv(r"C:\Users\Reli_New_PC_18\Documents\Trust Aware Recommender System for Social Coding Platforms\Dataset\commits.csv",header=None,skiprows=1, names=commit_headers)
 cusers = commits.user_id.tolist()
 cproj = commits.projectid.tolist()
 #print(fusers)
@@ -279,7 +282,7 @@ for user, project in zip(occur_users, occur_projects):
         QUserProj[user] = project
 
 prolang = []
-with open(r"/home/nkorojoseph/Desktop/githubProjLang/languages.csv",'r') as Prolang:
+with open("C:\\Users\Reli_New_PC_18\\Documents\\Trust Aware Recommender System for Social Coding Platforms\\Dataset\\githubProjLang\\languages.csv",'r') as Prolang:
     reader = csv.reader(Prolang)
     for row in reader:
         prolang.append(row)
@@ -304,7 +307,7 @@ for key,value in QUsersProfile.items():
 #QUsersProfileCount = dict(Counter(QUsersProfileCount))
 
 newprolang = []
-with open("/home/nkorojoseph/Desktop/newprojectreadme/pnewlang.csv",'r') as NewProlang:
+with open("C:\\Users\Reli_New_PC_18\\Documents\\Trust Aware Recommender System for Social Coding Platforms\\Dataset\\newprojectreadme\\pnewlang.csv",'r') as NewProlang:
     reader = csv.reader(NewProlang)
     for row in reader:
         newprolang.append(row)
@@ -343,7 +346,7 @@ acurracy = count/len(testusers)
 print('Recommendation Acurracy = ',acurracy)
 
 
-# In[37]:
+# In[28]:
 
 
 keys = set(totalRel.keys()) | set(j.keys())
@@ -364,7 +367,7 @@ print('Correlation between Trusted Users and Experience level = ',numpy.corrcoef
     [j.get(x, 0) for x in keys1])[0, 1])
 
 
-# In[38]:
+# In[29]:
 
 
 
@@ -385,7 +388,13 @@ print('Correlation between programming language similarity and Trusted developer
     [j.get(x, 0) for x in keys])[0, 1])
 
 
-# In[ ]:
+# In[7]:
+
+
+
+
+
+# In[4]:
 
 
 
