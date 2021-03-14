@@ -1,0 +1,81 @@
+The [probability and statistics cookbook][stat-cookbook] contains a succinct
+representation of various topics in probability theory and statistics. It
+provides a comprehensive mathematical reference reduced to its essence, rather
+than aiming for elaborate explanations.
+
+Feel encouraged to extend the cookbook by forking it and submitting pull
+requests.
+
+Build Setup
+-----------
+
+You can build the cookbook locally via:
+
+    make
+  guaranteed to work: see the documentation to `unload()` for caveats.
+
+* `build()` builds a package file from package sources. You can
+  use it to build a binary version of your package.
+
+* `install_*` functions install an R package:
+   * `install_github()` from github,
+   * `install_bitbucket()` from bitbucket, 
+   * `install_url()` from an arbitrary url and
+   * `install_local()` from a local file on disk. 
+   * `install_version()` installs a specified version from cran.
+
+Check and release:
+
+* `check()` updates the documentation, then builds and checks the package. 
+  `build_win()` builds a package using 
+  [win-builder](http://win-builder.r-project.org/), allowing you to easily check 
+  your package on windows.
+
+* `run_examples()` will run all examples to make sure they work.
+  This is useful because example checking is the last step of `R CMD check`.
+
+* `check_man()` runs most of the documentation checking components
+  of `R CMD check`
+
+* `release()` makes sure everything is ok with your package
+  (including asking you a number of questions), then builds and
+  uploads to CRAN. It also drafts an email to let the CRAN
+  maintainers know that you've uploaded a new package.
+
+## Diaspora
+
+devtools started off as a lean-and-mean package to facilitate local package development, but over the years it accumulated more and more functionality. Currently devtools is under going a diaspora to split out functionality into smaller, more tightly focussed packages. The diaspora includes:
+
+* [pkgbuild](https://github.com/r-lib/pkgbuild): Building binary packages
+  (including checking if build tools are available).
+
+* [pkgload](https://github.com/r-lib/pkgload): Simulating package loading 
+  (i.e. `load_all()`)
+
+* [rcmdcheck](https://github.com/r-lib/rcmdcheck): Running R CMD check
+  and reporting the results.
+
+This first generates the distribution plots via R and then compiles the LaTeX source.
+You may have to install a few missing packages via CRAN.
+
+License
+-------
+
+This work is licensed under a [Attribution-NonCommercial-ShareAlike 4.0
+International License][by-nc-sa].
+
+[![Creative Commons License][by-nc-sa-img]][by-nc-sa]
+
+Screenshots
+-----------
+
+![Distributions 1](http://matthias.vallentin.net/blog/2010/10/dist-disc.png)
+![Distributions 2](http://matthias.vallentin.net/blog/2010/10/dist-cont.png)
+![Graphs](http://matthias.vallentin.net/blog/2010/10/dist-cont-figs.png)
+![Hypothesis Testing](http://matthias.vallentin.net/blog/2010/10/hyp-test.png)
+![Bayesian](http://matthias.vallentin.net/blog/2010/10/bayesian.png)
+![Time Series](http://matthias.vallentin.net/blog/2010/10/time-series.png)
+
+[stat-cookbook]: http://statistics.zone
+[by-nc-sa]: http://creativecommons.org/licenses/by-nc-sa/4.0/
+[by-nc-sa-img]: http://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png
